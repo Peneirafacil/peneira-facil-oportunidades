@@ -1,0 +1,159 @@
+Peneira Fácil is a comprehensive, web-based and mobile-responsive platform designed to streamline the discovery, registration, and management of football tryouts across Brazil. Built for players, clubs, academies, and scouts, the platform connects talent with opportunities, with advanced filtering tools, real-time registration, and integrated payment/subscription systems.
+
+⸻
+
+🔹 Platform Overview
+
+Develop a responsive football tryouts discovery platform named PENEIRA FÁCIL. It enables organizers to post football tryout events, and players to search, filter, register, and interact with those events. The platform supports user accounts, a monthly R$12 subscription, and payment tracking.
+
+⸻
+
+🔹 Core Features
+
+1. Football Tryouts Directory
+
+A centralized, searchable, and filterable database of all active football tryouts in Brazil. Users can filter by:
+	•	State
+	•	City
+	•	Region
+	•	Age Range
+	•	Modality (e.g., Field, Futsal)
+	•	Specific Date (Day / Month / Year)
+
+2. Event Registration System
+
+Players can register directly for tryouts. Organizers receive participant data immediately, and users get confirmation via in-app and email notifications.
+
+3. Community Engagement
+
+Each tryout listing should support:
+	•	User comments
+	•	Q&A threads
+	•	Player feedback and discussions
+
+4. Subscription & Payment Tracking
+	•	Monthly subscription fee: R$12
+	•	Integrated payment processing (supporting credit card and boleto)
+	•	User dashboard showing:
+	•	Subscription status: Active / Pending / Expired
+	•	Payment history with downloadable invoices
+	•	Alerts for renewals or failed payments
+
+5. User Profile System
+	•	Save favorite tryouts and filter preferences
+	•	View registration history
+	•	Manage subscription and billing details
+	•	Receive notifications based on:
+	•	Location
+	•	Age group
+	•	Modality
+
+⸻
+
+🔹 Visual & UI Inspiration
+	•	Eventbrite: Event discovery and filtering UI clarity
+	•	LinkedIn: Structured profiles and community engagement interface
+
+⸻
+
+🔹 Style Guide
+
+🟡 Updated Color Palette
+	•	Primary: #AFE32E (Updated Green)
+	•	Secondary: #FFD700 (Golden Yellow)
+	•	Background: #F8F9FA (Light Grey)
+	•	Text: #212529 (Dark Grey)
+	•	Accent: #007BFF (Action Blue)
+	•	Success: #28A745 (Confirmation Green)
+
+🖋️ Typography
+	•	Fonts: Inter and Roboto
+	•	Headings: Bold, clean
+	•	Body: Readable, light-weight
+
+🧩 UI Components
+	•	Card-based layout for tryout listings
+	•	Sticky filter bar for easy navigation
+	•	Mobile-first responsive design
+	•	Strong call-to-action buttons: “Subscribe”, “Search”, “More Information”
+	•	Dashboard with color-coded payment status indicators
+
+⸻
+
+🔹 UI STRUCTURE & FUNCTIONAL UPDATES
+
+🔷 Header (Top Section)
+	•	Replace default logo with the new PENEIRA FÁCIL logo (Image 1).
+	•	App name in ALL CAPS: PENEIRA FÁCIL
+	•	Subtitle (below logo): PENEIRAS EM TODO BRASIL E TODOS OS DIAS! (All caps)
+	•	Hamburger Menu (three-bar icon) should be clickable and open the following:
+	•	Página Inicial (Home)
+	•	Contato (Contact)
+	•	Termos (Terms of Use)
+	•	Suporte (Support)
+
+⸻
+
+🔷 Block 1 – Tryout Discovery Filter
+
+• Title Text:
+
+A OPORTUNIDADE QUE VOCÊ PROCURA NO FUTEBOL PODE ESTAR NA SUA CIDADE! (All caps)
+
+• Subtitle:
+
+OPORTUNIDADES EM CAMPO POR TODO O BRASIL. ENCONTRE A SUA E ENTRE PRO JOGO. (All caps)
+
+• Filters:
+	•	City/Region Selector: Clickable input showing all Brazilian cities (scrollable or searchable)
+	•	Age Input: Clickable input where the user enters date of birth in DD/MM/YY
+	•	Buscar Button (Search): Clickable – shows tryouts matching selected filters
+
+⸻
+
+🔷 Block 2 – Recent Tryouts
+
+• Title:
+
+Change from “Peneiras Disponíveis” to
+PENEIRAS POSTADAS RECENTEMENTE! (All caps)
+
+• Sort Button:
+	•	Clickable button labeled “Mais Recentes”
+	•	Dropdown options:
+	•	Mais Recentes
+	•	Mais Antigas
+	•	Selection refreshes the tryout list accordingly
+
+⸻
+
+🔷 Block 3 – Tryout Cards
+
+• Design:
+
+Replace existing tryout card visuals with the card from Image 2.
+
+• Button Text:
+
+Replace Inscrever-se with
+MAIS INFORMAÇÕES (All caps)
+
+• Button Functionality:
+
+On click, a detailed tryout page should open showing:
+	•	Full Date of the tryout
+	•	Location (city/state/venue)
+	•	Age category
+	•	Contact information
+	•	Required documents
+	•	Organizer details
+
+This format should apply consistently to all tryout cards shown on the platform.
+
+⸻
+
+✅ Final Notes
+
+The overall user experience should prioritize clarity, engagement, and responsiveness. The interface must feel dynamic, yet simple and intuitive — appealing to young athletes, parents, and coaches alike.
+
+This prompt serves as the definitive specification for the development and design of PENEIRA FÁCIL — the ultimate hub for football tryouts in Brazil.

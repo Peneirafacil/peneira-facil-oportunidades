@@ -1,0 +1,213 @@
+🟩 PENEIRA FÁCIL – FULL PLATFORM PROMPT (WEB + MOBILE APP)
+
+⸻
+
+🔹 Platform Overview
+
+Build a mobile-first, responsive football tryouts discovery platform named PENEIRA FÁCIL, targeted at Brazilian players and organizers. The system must allow football clubs, academies, and scouts to post tryout events, while players can search, filter, register, and interact with these opportunities.
+
+It includes a monthly subscription system (R$12) with full payment tracking, user profiles, and an intuitive UI inspired by Eventbrite (event flow) and LinkedIn (profile layout).
+
+⸻
+
+🔹 Core Features
+
+1. Football Tryouts Directory
+
+A centralized and filterable database for active tryouts across Brazil. Users can filter by:
+	•	State
+	•	City
+	•	Region
+	•	Age range
+	•	Modality (Field, Futsal)
+	•	Date (Day / Month / Year)
+
+2. Event Registration System
+	•	Direct registration for events
+	•	Organizers receive participant data
+	•	Confirmation via in-app message + email
+
+3. Community Engagement
+	•	Comments and Q&A for each tryout
+	•	Players share experiences and ask questions
+
+4. Subscription & Payment Tracking
+	•	Monthly plan: R$12
+	•	Accepts credit card and boleto
+	•	Dashboard with:
+	•	Status: Active / Pending / Expired
+	•	Full payment history with receipts
+	•	Alerts for upcoming renewals or failed transactions
+
+5. User Profile System
+	•	Save favorite tryouts and filters
+	•	View tryout registration history
+	•	Manage billing & payment
+	•	Get personalized notifications by:
+	•	Region
+	•	Modality
+	•	Age
+
+⸻
+
+🔹 Visual & UI Direction
+
+Inspired by:
+	•	Eventbrite – for clean filtering & event cards
+	•	LinkedIn – for structured profile and engagement
+
+⸻
+
+🔹 Style Guide
+
+Colors:
+	•	Primary: #AFE32E (green)
+	•	Secondary: #044C98 (blue)
+	•	Background: #F8F9FA
+	•	Text: #000000
+	•	Accent: #007BFF
+	•	Success: #28A745
+
+Typography:
+	•	Fonts: Inter / Roboto
+	•	Headings: Bold and modern
+	•	Body: Clean and readable
+
+Components:
+	•	Card-style layout
+	•	Sticky filter bars
+	•	Strong call-to-actions (“Search”, “Subscribe”, “More Info”)
+	•	Payment status with color-coded indicators
+
+⸻
+
+🔷 UI STRUCTURE & FUNCTIONALITY
+
+⸻
+
+🔹 HEADER (TOP SECTION)
+	•	Replace default logo with provided logo (Image 1)
+	•	App Name: PENEIRA FÁCIL (uppercase)
+	•	Subtitle: PENEIRAS EM TODO BRASIL E TODOS OS DIAS!
+	•	Hamburger menu (☰) should open:
+	•	Página Inicial
+	•	Contato
+	•	Termos
+	•	Suporte
+
+⸻
+
+🔹 BLOCK 1 – Tryout Discovery Filter
+	•	Title: A OPORTUNIDADE QUE VOCÊ PROCURA NO FUTEBOL PODE ESTAR NA SUA CIDADE!
+	•	Subtitle: OPORTUNIDADES EM CAMPO POR TODO O BRASIL. ENCONTRE A SUA E ENTRE PRO JOGO.
+
+Functional Filters:
+	•	City/Region selector: Clickable dropdown (scrollable/searchable) with all Brazilian cities
+	•	Age Input: User inputs DOB in DD/MM/YY
+	•	“Buscar” Button: Fetch tryouts based on filters
+
+⸻
+
+🔹 BLOCK 2 – Recent Tryouts
+	•	Title: PENEIRAS POSTADAS RECENTEMENTE!
+	•	Sort Button:
+	•	Dropdown with:
+	•	Mais Recentes
+	•	Mais Antigas
+	•	Refreshes list accordingly
+
+⸻
+
+🔹 BLOCK 3 – Tryout Cards
+	•	Replace card visuals with Image 2
+	•	Change button label from Inscrever-se to: MAIS INFORMAÇÕES
+	•	Clicking opens a detailed view showing:
+	•	Date
+	•	Location (City, State, Venue)
+	•	Age Category
+	•	Contact Info
+	•	Required Documents
+	•	Organizer Details
+
+⸻
+
+🔷 USER PROFILE BLOCK
+
+🔹 Overview
+
+Create a complete User Profile interface where players can edit their personal data, manage football experience, and view subscription status. Design should be responsive and modern.
+
+⸻
+
+🔹 SECTION 1: Player Info
+
+Profile Photo Upload
+	•	Circular preview
+	•	Tap to upload, crop and confirm
+
+Fields:
+	•	Full Name
+	•	Date of Birth: DD/MM/YYYY
+	•	Auto-calculated Age
+	•	Gender: Masculino / Feminino / Prefiro não dizer
+	•	Position: Dropdown with:
+	•	Goleiro, Zagueiro, Lateral Direito/Esquerdo, Volante, Meia, Atacante, Ponta, Centroavante, Ala (Futsal), Fixo (Futsal), Universal (Futsal)
+
+⸻
+
+🔹 SECTION 2: Football Background
+
+Past Clubs
+	•	“+ Add Club” button
+	•	Fields:
+	•	Club Name
+	•	Start/End Year
+	•	Level: Base, Amador, Profissional
+	•	Display: Timeline or card format
+
+Tryout History
+	•	Auto-list based on registered events
+	•	Each includes:
+	•	Tryout name
+	•	Date & City
+	•	Status: Registered / Attended / Not Attended
+	•	Button: Ver Detalhes
+
+⸻
+
+🔹 SECTION 3: Subscription Status Panel
+
+Subscription Block (Fixed or Top Panel)
+	•	Status Badge:
+	•	🟢 ACTIVE → Green: #28A745
+	•	🟡 PENDING → Yellow: #FFC107
+	•	🔴 EXPIRED → Red: #DC3545
+
+Info Display:
+	•	Next Billing Date (e.g., 21/07/2025)
+	•	Last Payment Date
+	•	Payment Method: Cartão / Boleto
+
+Buttons:
+	•	Update Payment Method
+	•	Renew Subscription
+	•	Download Receipt
+
+If PENDING/EXPIRED → show alert:
+Renove sua assinatura para continuar acessando as peneiras!
+
+⸻
+
+🔹 Layout Suggestions:
+	•	On mobile: vertical stack
+	•	On desktop: split layout
+	•	Use card elements for separation
+	•	Use visual icons for gender, position, club history
+
+⸻
+
+✅ FINAL DELIVERY NOTES
+
+This full system prompt ensures a feature-rich, visually intuitive, and athlete-focused experience for young footballers and organizers in Brazil.
+
+The tryout discovery, profile identity, and subscription handling are at the core of engagement and retention — all seamlessly wrapped in a responsive, community-driven platform.

@@ -1,0 +1,101 @@
+🔷 Prompt: User Profile Block for PENEIRA FÁCIL (Web + Mobile App)
+
+🔹 Overview:
+
+Design a comprehensive and editable User Profile section within the PENEIRA FÁCIL platform. This section should allow the player to view and update their personal data, football background, and monitor the status of their subscription.
+
+The profile page must be mobile-first, clean, and intuitive.
+
+⸻
+
+🔹 SECTION 1: PLAYER PROFILE INFORMATION
+
+📷 Profile Photo Upload
+	•	Default circular placeholder if no photo is added
+	•	Upload/edit photo feature (tap to change image)
+	•	Crop + rotate before confirming upload
+
+👤 Basic Personal Info (editable fields):
+	•	Full Name (pre-filled from registration)
+	•	Date of Birth – user inputs or edits in format: DD/MM/YYYY
+	•	Age – auto-calculated and displayed based on Date of Birth
+	•	Gender – dropdown: Masculino / Feminino / Prefiro não dizer
+	•	Position – dropdown with multiple football positions:
+▪ Goleiro
+▪ Zagueiro
+▪ Lateral Direito
+▪ Lateral Esquerdo
+▪ Volante
+▪ Meia
+▪ Atacante
+▪ Ponta
+▪ Centroavante
+▪ Ala (Futsal)
+▪ Fixo (Futsal)
+▪ Universal (Futsal)
+
+⸻
+
+🔹 SECTION 2: FOOTBALL BACKGROUND
+
+🏟️ Past Clubs
+	•	Input field with “+ Add Club”
+	•	User can add:
+	•	Club Name
+	•	Start & End Year
+	•	Category (Base/Amador/Profissional)
+	•	Display in timeline/card format
+
+📅 Tryout History (via the app)
+	•	Auto-generated list based on user registrations
+	•	Each tryout card should include:
+	•	Event name
+	•	Date & Location
+	•	Status: Registered / Attended / Not Attended
+	•	Button: Ver Detalhes
+
+⸻
+
+🔹 SECTION 3: SUBSCRIPTION STATUS BLOCK
+
+Place this block visually separated from the profile data — preferably at the top or fixed in the sidebar (desktop) or bottom of the screen (mobile).
+
+💳 Subscription Status Panel
+	•	Current Status:
+Display in a color-coded badge:
+	•	🟢 ACTIVE
+	•	🟡 PENDING PAYMENT
+	•	🔴 EXPIRED
+	•	Next Billing Date: show expected renewal date (e.g., 21/07/2025)
+	•	Last Payment: show date of last successful transaction
+	•	Payment Method: show “Cartão de Crédito” or “Boleto”
+
+Buttons / Actions:
+	•	Update Payment Method
+	•	Renew Subscription
+	•	Download Receipt
+
+Add notification logic:
+	•	If status = Expired or Pending → show alert at top with “Renove sua assinatura para continuar acessando as peneiras!”
+
+⸻
+
+🔹 Style Recommendations:
+
+Color Accents:
+	•	Subscription status badge:
+	•	ACTIVE = #28A745 (green)
+	•	PENDING = #FFC107 (yellow)
+	•	EXPIRED = #DC3545 (red)
+
+Font: Inter / Roboto
+Layout: Card-style blocks with icons for clarity
+Responsiveness:
+	•	On mobile: stacked vertically, scrollable
+	•	On desktop: two-column layout with subscription status pinned
+
+⸻
+
+✅ Final Notes:
+
+This User Profile Block should feel personal, professional, and dynamic, giving users a sense of identity and progression inside the app. The subscription status must always be prominent to ensure users stay informed and engaged.

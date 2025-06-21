@@ -1,0 +1,126 @@
+🏆 Full Product Prompt: PENEIRA FÁCIL — Responsive Web & Mobile Football Tryouts Platform
+
+🔹 Platform Summary
+
+PENEIRA FÁCIL is a responsive, web and mobile platform designed to connect football players with tryout opportunities across Brazil. It allows organizers to publish tryout events, while athletes can search, register, and track these events using advanced filters. The platform includes user profiles, a community comment system, a video portfolio section, and a R$12/month subscription model integrated with real-time payment and billing status tracking.
+
+⸻
+
+🔧 Core Features
+
+1. 🔍 Football Tryouts Directory
+
+A searchable, filterable directory of all tryouts posted on the platform.
+
+Filters available:
+	•	State (dropdown)
+	•	City (searchable or scrollable list of all Brazilian cities)
+	•	Region
+	•	Age Range or Birthdate input (DD/MM/YY)
+	•	Modality: Campo / Futsal (selectable toggle)
+	•	Specific Date (Day / Month / Year)
+
+⸻
+
+2. 📝 Event Registration System
+	•	Athletes can register for tryouts directly.
+	•	Organizers receive participant data in real time.
+	•	Confirmation sent via in-app and email.
+
+⸻
+
+3. 💬 Community Engagement
+
+Each tryout page includes:
+	•	Comment section (public)
+	•	Q&A thread
+	•	Ability for players to share feedback or reviews about past tryouts
+
+⸻
+
+4. 💳 Subscription & Payment Tracking
+	•	Monthly subscription: R$12
+	•	Payment methods: Credit card and Boleto
+	•	User Dashboard displays:
+	•	Subscription status:
+	•	🟢 ACTIVE – #28A745
+	•	🟡 PENDING – #FFC107
+	•	🔴 EXPIRED – #DC3545
+	•	Next billing date
+	•	Last payment date
+	•	Payment method
+	•	Downloadable invoices
+	•	Alerts:
+	•	If status is PENDING or EXPIRED, show banner:
+“Renove sua assinatura para continuar acessando as peneiras!”
+
+⸻
+
+5. 👤 User Profile System
+
+Users can:
+	•	Save preferred filters and tryouts
+	•	View full tryout application history
+	•	Manage subscription and payment methods
+	•	Enable push/email notifications by:
+	•	Region
+	•	Modality
+	•	Age group
+
+⸻
+
+🎯 Athlete Instagram-style Profile Block
+
+Create a clean, Instagram-inspired profile page for players with public visibility and club-style professionalism. This profile block includes visual identity, bio, sports history, and highlight videos.
+
+⸻
+
+🔷 Header – Profile Info
+	•	Circular Profile Picture
+	•	Upload/change with cropping tool
+	•	Name: Large, bold, white text
+	•	Bio: Max 200 characters, editable inline
+	•	Key Fields (cards or icons):
+	•	📍 Estado (State)
+	•	📅 Idade (auto-calculated from birthdate)
+	•	🎯 Posição (Goleiro, Atacante, Meia, etc.)
+	•	🏟️ Modalidade: Campo / Futsal
+	•	🚻 Sexo: Masculino / Feminino / Outro
+
+⸻
+
+🛡️ Club History Section
+
+Title: Clubes e Times que já passou
+Display clubs the athlete has played for, using cards or a vertical list.
+
+Each club entry includes:
+	•	Club Name
+	•	Start & End Year
+	•	Level: Base / Amador / Profissional
+	•	Button: + Adicionar Clube (opens modal)
+
+⸻
+
+🎥 Highlight Videos
+
+Title: Vídeos em Destaque
+Players can upload up to 3 videos or link:
+	•	YouTube / Instagram / TikTok
+	•	Auto-generate thumbnail preview
+	•	Tap to expand full screen
+	•	Optional caption or stats (views, likes)
+
+⸻
+
+💳 Subscription Block (Inside Profile Page)
+
+Display at the top (mobile) or sidebar (desktop). Include:
+	•	Status Badge (color-coded)
+	•	Next Billing Date
+	•	Last Payment Date
+	•	Payment Method
+	•	Buttons:
+	•	Update Method
+	•	Renew Subscription
+	•	Download Receipt

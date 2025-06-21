@@ -1,0 +1,62 @@
+Prompt: Peneira Fácil Web & Mobile Platform – Updated UI/UX Specification
+
+Create a responsive football tryout discovery platform named PENEIRA FÁCIL, designed for Brazilian players and football event organizers. This platform allows users to filter and register for tryouts across Brazil, manage their subscriptions, and access detailed information—all in a clean, user-friendly interface.
+
+⸻
+
+Header (Top Section) – Updates:
+	•	Logo: Replace the current logo with the new logo provided (Image 1).
+	•	App Name: Change “Peneira Fácil” to PENEIRA FÁCIL (all caps).
+	•	Subtitle/Text below the name: Replace with PENEIRAS EM TODO BRASIL E TODOS OS DIAS! (all caps).
+	•	Hamburger Menu (three bars icon): Make it clickable and open a side menu with the following pages:
+	•	Página Inicial (Home)
+	•	Contato (Contact)
+	•	Termos (Terms of Use)
+	•	Suporte (Support)
+
+⸻
+
+Color Update:
+	•	Replace all current green colors in the UI with:
+#AFE32E – for buttons, accents, icons, or backgrounds that use green.
+
+⸻
+
+Block 1 – Search & Discovery:
+	•	Headline Text:
+Replace “Encontre Oportunidade no Futebol” with:
+A OPORTUNIDADE QUE VOCÊ PROCURA NO FUTEBOL PODE ESTAR NA SUA CIDADE! (all caps)
+	•	Subtext:
+Replace with:
+OPORTUNIDADES EM CAMPO POR TODO O BRASIL. ENCONTRE A SUA E ENTRE PRO JOGO. (all caps)
+	•	Search Filters Functionality:
+	•	City/Region Input: Make this a clickable input that opens a dropdown list of all Brazilian cities, searchable and scrollable.
+	•	Age Input (Anos): Make this a clickable input where the user can enter their date of birth in DD/MM/YY format.
+	•	“Buscar” Button (Search): Make this a clickable button. Upon click, show the tryouts that match the selected filters (city and age).
+
+⸻
+
+Block 2 – Recent Tryouts Section:
+	•	Title: Replace “Peneiras Disponíveis” with:
+PENEIRAS POSTADAS RECENTEMENTE! (all caps)
+	•	Sort Button:
+The button currently showing “Mais recentes” should be clickable and open two options:
+▪ Mais Recentes
+▪ Mais Antigas
+Clicking an option should automatically refresh the list of tryouts sorted by date.
+
+⸻
+
+Block 3 – Tryout Cards Display:
+	•	Card Design: Replace current tryout card visuals with the second image you provided (Image 2).
+	•	Button Text: Replace “Inscrever-se” with:
+MAIS INFORMAÇÕES (all caps)
+	•	Button Function: Clicking “Mais Informações” should open a new page displaying full tryout details, including:
+	•	Date
+	•	Location
+	•	Age category
+	•	Contact info
+	•	Required documents
+	•	Organizer info
+
+This format should be used for every tryout listing on the platform.

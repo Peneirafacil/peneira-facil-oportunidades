@@ -1,0 +1,58 @@
+Build a web-based and mobile-responsive football tryouts discovery platform called Peneira Fácil, designed for Brazilian players and organizers. The platform enables football clubs, academies, and scouts to publish tryout events, while players can search, filter, register, and engage with these opportunities across Brazil. A monthly subscription system of R$12 is integrated, allowing full access to events and user interaction features.
+
+⸻
+
+Core Features:
+	•	Football Tryouts Directory:
+A centralized, filterable listing of active football tryouts across Brazil. Filters should include:
+• State
+• City
+• Region
+• Age range
+• Sport modality (e.g., field, futsal)
+• Day / Month / Year
+	•	Event Registration System:
+Players can register directly for tryouts through the platform. Organizers receive participant data instantly. Users receive a confirmation message and email.
+	•	Community Engagement:
+Enable user commenting and Q&A on each tryout event. Players can ask questions, share feedback, and discuss experiences, promoting community-driven insights.
+	•	Subscription & Payment Tracking:
+• Monthly subscription fee: R$12
+• Integrated subscription billing (supporting credit card and boleto)
+• User dashboard shows payment status (active, pending, expired)
+• View complete payment history and invoices
+• Prompt alerts for upcoming renewals or failed payments
+	•	User Profiles:
+• Save preferred filters and tryouts
+• Access history of tryout applications
+• View and manage subscription/payment status
+• Customize notification settings (e.g., tryouts by age, region, modality)
+
+⸻
+
+Visual & UI Inspiration:
+	•	Eventbrite – for clean event discovery and filtering interface
+	•	LinkedIn – for structured user profiles and content-based interaction
+
+⸻
+
+Style Guide:
+	•	Color Palette:
+• Primary: #00A859 (Football Green)
+• Secondary: #FFD700 (Golden Yellow)
+• Background: #F8F9FA (Light Grey)
+• Text: #212529 (Dark Grey)
+• Accent: #007BFF (Action Blue)
+• Success: #28A745 (Confirmation Green)
+	•	Typography:
+• Primary fonts: Inter and Roboto
+• Headings bold and modern, body text clean and readable
+	•	UI Components:
+• Card-based layout for event listings
+• Sticky filters bar for ease of navigation
+• Clear call-to-action buttons (“Register”, “Subscribe”, “Pay Now”)
+• Mobile-first responsive design, optimized for performance on all devices
+• Dashboard with visual payment status indicators (color-coded)
+
+⸻
+
+This platform should combine simplicity, clarity, and engagement—tailored specifically to the Brazilian football scene. It should deliver a seamless experience both for young aspiring players and event organizers, turning Peneira Fácil into the go-to destination for football tryouts across Brazil.
