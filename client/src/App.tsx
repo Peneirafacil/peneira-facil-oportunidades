@@ -8,6 +8,7 @@ import Landing from "@/pages/Landing";
 import Home from "@/pages/Home";
 import Profile from "@/pages/Profile";
 import TryoutDetails from "@/pages/TryoutDetails";
+import Ranking from "@/pages/Ranking";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -21,6 +22,7 @@ function Router() {
         <>
           <Route path="/" component={Home} />
           <Route path="/profile" component={Profile} />
+          <Route path="/ranking" component={Ranking} />
           <Route path="/tryout/:id" component={TryoutDetails} />
         </>
       )}

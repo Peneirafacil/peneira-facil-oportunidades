@@ -3,7 +3,8 @@ import { Link, useLocation } from "wouter";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
-import { Menu, Home, User, Phone, FileText, HelpCircle, LogOut } from "lucide-react";
+import { Menu, Home, User, Phone, FileText, HelpCircle, LogOut, Bell } from "lucide-react";
+import NotificationButton from "./NotificationButton";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -40,6 +41,7 @@ export default function Header() {
         <div className="flex items-center space-x-4">
           {isAuthenticated ? (
             <>
+              <NotificationButton />
               <span className="hidden md:block text-sm text-muted-foreground">
                 Olá, {user?.firstName || 'Usuário'}!
               </span>
