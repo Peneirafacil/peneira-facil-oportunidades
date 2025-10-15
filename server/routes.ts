@@ -3,6 +3,25 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { setupAuth, isAuthenticated } from "./replitAuth";
 import { insertTryoutSchema, insertPlayerProfileSchema, insertClubHistorySchema, insertVideoPortfolioSchema, insertTryoutRegistrationSchema, insertTryoutCommentSchema } from "@shared/schema";
+import { z } from "zod";
+
+// Validation schemas for update operations
+const profileUpdateSchema = z.object({
+  fullName: z.string().trim().min(1).max(100).optional(),
+  email: z.string().email().max(255).optional(),
+  dateOfBirth: z.string().optional(),
+  position: z.string().max(50).optional(),
+  height: z.number().int().min(100).max(250).optional(),
+  weight: z.number().int().min(30).max(200).optional(),
+  age: z.number().int().min(5).max(100).optional(),
+  biography: z.string().max(1000).optional(),
+  phoneAthlete: z.string().regex(/^\+?[0-9]{10,15}$/).optional(),
+  phoneGuardian: z.string().regex(/^\+?[0-9]{10,15}$/).optional(),
+  city: z.string().max(100).optional(),
+  state: z.string().max(50).optional(),
+  instagram: z.string().max(100).optional(),
+  photoUrl: z.string().url().max(500).optional(),
+}).strict();
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Auth middleware
@@ -51,8 +70,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.put('/api/profile', isAuthenticated, async (req: any, res) => {
     try {
       const userId = req.user.claims.sub;
-      const profileData = req.body;
-      const profile = await storage.updatePlayerProfile(userId, profileData);
+      
+      // Validate input
+      const validationResult = profileUpdateSchema.safeParse(req.body);
+      if (!validationResult.success) {
+        return res.status(400).json({ 
+          message: "Invalid input", 
+          errors: validationResult.error.errors 
+        });
+      }
+      
+      const profile = await storage.updatePlayerProfile(userId, validationResult.data);
       res.json(profile);
     } catch (error) {
       console.error("Error updating profile:", error);
