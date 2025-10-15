@@ -1,7 +1,5 @@
 import type { Express, RequestHandler } from "express";
 import passport from "passport";
-import type { VerifyFunction } from "openid-client/passport";
-import type { TokenEndpointResponse, TokenEndpointResponseHelpers } from "openid-client";
 
 // Fallback-friendly Replit Auth wrapper
 // - If running on Replit with proper envs, uses real OIDC auth
@@ -52,7 +50,7 @@ async function setupRealAuth(app: Express) {
 
   function updateUserSession(
     user: any,
-    tokens: TokenEndpointResponse & TokenEndpointResponseHelpers
+    tokens: any
   ) {
     user.claims = tokens.claims();
     user.access_token = tokens.access_token;
@@ -77,11 +75,11 @@ async function setupRealAuth(app: Express) {
 
   const config = await getOidcConfig();
 
-  const verify: VerifyFunction = async (
-    tokens: TokenEndpointResponse & TokenEndpointResponseHelpers,
+  const verify = async (
+    tokens: any,
     verified: passport.AuthenticateCallback
   ) => {
-    const user = {} as any;
+    const user: any = {};
     updateUserSession(user, tokens);
     await upsertUser(tokens.claims());
     verified(null, user);
