@@ -17,6 +17,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Skeleton } from "@/components/ui/skeleton";
 import { apiRequest } from "@/lib/queryClient";
 import { Plus, Edit, Trash2 } from "lucide-react";
+import type { PlayerProfile, ClubHistory, Subscription } from "@shared/schema";
 
 const footballPositions = [
   "Goleiro", "Zagueiro", "Lateral Direito", "Lateral Esquerdo",
@@ -70,19 +71,19 @@ export default function Profile() {
   }, [isAuthenticated, isLoading, toast]);
 
   // Fetch profile data
-  const { data: profile, isLoading: profileLoading } = useQuery({
+  const { data: profile, isLoading: profileLoading } = useQuery<PlayerProfile | null>({
     queryKey: ["/api/profile"],
     enabled: isAuthenticated,
   });
 
   // Fetch club history
-  const { data: clubHistory, isLoading: clubHistoryLoading } = useQuery({
+  const { data: clubHistory, isLoading: clubHistoryLoading } = useQuery<ClubHistory[]>({
     queryKey: ["/api/profile", profile?.id, "clubs"],
     enabled: !!profile?.id,
   });
 
   // Fetch subscription
-  const { data: subscription, isLoading: subscriptionLoading } = useQuery({
+  const { data: subscription, isLoading: subscriptionLoading } = useQuery<Subscription | null>({
     queryKey: ["/api/subscription"],
     enabled: isAuthenticated,
   });
@@ -141,7 +142,7 @@ export default function Profile() {
   // Add club history mutation
   const addClubMutation = useMutation({
     mutationFn: async (data: typeof clubData) => {
-      return await apiRequest("POST", `/api/profile/${profile.id}/clubs`, data);
+      return await apiRequest("POST", `/api/profile/${profile!.id}/clubs`, data);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/profile", profile?.id, "clubs"] });

@@ -4,6 +4,7 @@ import Header from "@/components/Header";
 import SearchFilters from "@/components/SearchFilters";
 import TryoutCard from "@/components/TryoutCard";
 import { Skeleton } from "@/components/ui/skeleton";
+import type { Tryout } from "@shared/schema";
 import { Card, CardContent } from "@/components/ui/card";
 
 export default function Home() {
@@ -16,7 +17,7 @@ export default function Home() {
 
   const [sortOrder, setSortOrder] = useState("Mais Recentes");
 
-  const { data: tryouts, isLoading: tryoutsLoading } = useQuery({
+  const { data: tryouts, isLoading: tryoutsLoading } = useQuery<Tryout[]>({
     queryKey: ["/api/tryouts", searchFilters],
   });
 

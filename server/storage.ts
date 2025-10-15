@@ -217,7 +217,7 @@ export class DatabaseStorage implements IStorage {
     return await db
       .select()
       .from(tryouts)
-      .where(and(...conditions))
+      .where(conditions.length > 1 ? and(...conditions) : conditions[0])
       .orderBy(desc(tryouts.createdAt));
   }
 

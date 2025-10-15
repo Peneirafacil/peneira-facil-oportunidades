@@ -13,6 +13,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { apiRequest } from "@/lib/queryClient";
 import { Calendar, MapPin, Users, Phone, FileText, Building, Clock } from "lucide-react";
 import { useState } from "react";
+import type { Tryout, TryoutComment } from "@shared/schema";
 
 export default function TryoutDetails() {
   const [, params] = useRoute("/tryout/:id");
@@ -38,13 +39,13 @@ export default function TryoutDetails() {
   }, [isAuthenticated, isLoading, toast]);
 
   // Fetch tryout details
-  const { data: tryout, isLoading: tryoutLoading } = useQuery({
+  const { data: tryout, isLoading: tryoutLoading } = useQuery<Tryout | null>({
     queryKey: ["/api/tryouts", tryoutId],
     enabled: !!tryoutId && isAuthenticated,
   });
 
   // Fetch comments
-  const { data: comments, isLoading: commentsLoading } = useQuery({
+  const { data: comments, isLoading: commentsLoading } = useQuery<TryoutComment[]>({
     queryKey: ["/api/tryouts", tryoutId, "comments"],
     enabled: !!tryoutId && isAuthenticated,
   });

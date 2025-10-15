@@ -38,7 +38,7 @@ export default function VideoPortfolio({ profileId }: VideoPortfolioProps) {
   });
 
   // Fetch videos
-  const { data: videos, isLoading: videosLoading } = useQuery({
+  const { data: videos, isLoading: videosLoading } = useQuery<Video[]>({
     queryKey: ["/api/profile", profileId, "videos"],
     enabled: !!profileId,
   });

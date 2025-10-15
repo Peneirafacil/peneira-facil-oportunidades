@@ -97,8 +97,8 @@ export default function NotificationButton() {
   const newNotificationsCount = peneiraNotifications.filter(n => n.isNew).length + 
                                pontosNotifications.filter(n => n.isNew).length;
 
-  // Only show for admin users
-  if (!user || user.role !== 'admin') {
+  // Only show when user is authenticated
+  if (!user) {
     return null;
   }
 

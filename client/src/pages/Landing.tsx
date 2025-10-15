@@ -9,6 +9,7 @@ import AthleteProfile from "@/components/AthleteProfile";
 import SubscriptionPanel from "@/components/SubscriptionPanel";
 import { useQuery } from "@tanstack/react-query";
 import { Skeleton } from "@/components/ui/skeleton";
+import type { Tryout } from "@shared/schema";
 
 export default function Landing() {
   const [searchFilters, setSearchFilters] = useState({
@@ -20,7 +21,7 @@ export default function Landing() {
 
   const [sortOrder, setSortOrder] = useState("Mais Recentes");
 
-  const { data: tryouts, isLoading: tryoutsLoading } = useQuery({
+  const { data: tryouts, isLoading: tryoutsLoading } = useQuery<Tryout[]>({
     queryKey: ["/api/tryouts", searchFilters],
     enabled: Object.values(searchFilters).some(v => v !== ""),
   });
