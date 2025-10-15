@@ -4,11 +4,11 @@
   "type": "module",
   "license": "MIT",
   "scripts": {
-  "dev": "tsx watch server/index.ts --inspect",
-  "build": "vite build",
-  "build:dev": "vite build --mode development",
-  "start": "NODE_ENV=production node dist/index.js",
-  "check": "tsc"
+    "dev": "tsx watch server/index.ts",
+    "build": "vite build",
+    "build:dev": "vite build --mode development",
+    "start": "node dist/server/index.js",
+    "check": "tsc"
 }
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
