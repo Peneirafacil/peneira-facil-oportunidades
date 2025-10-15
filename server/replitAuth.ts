@@ -1,5 +1,7 @@
 import type { Express, RequestHandler } from "express";
 import passport from "passport";
+import type { VerifyFunction } from "openid-client/passport";
+import type { TokenEndpointResponse, TokenEndpointResponseHelpers } from "openid-client";
 
 // Fallback-friendly Replit Auth wrapper
 // - If running on Replit with proper envs, uses real OIDC auth
@@ -10,7 +12,7 @@ const hasReplitEnv = Boolean(process.env.REPLIT_DOMAINS);
 // Real Replit Auth (lazy imported only when needed)
 async function setupRealAuth(app: Express) {
   const client = await import("openid-client");
-  const { Strategy, type VerifyFunction } = await import("openid-client/passport");
+  const { Strategy } = await import("openid-client/passport");
   const session = (await import("express-session")).default;
   const connectPg = (await import("connect-pg-simple")).default;
   const memoize = (await import("memoizee")).default;
@@ -50,7 +52,7 @@ async function setupRealAuth(app: Express) {
 
   function updateUserSession(
     user: any,
-    tokens: client.TokenEndpointResponse & client.TokenEndpointResponseHelpers
+    tokens: TokenEndpointResponse & TokenEndpointResponseHelpers
   ) {
     user.claims = tokens.claims();
     user.access_token = tokens.access_token;
@@ -76,7 +78,7 @@ async function setupRealAuth(app: Express) {
   const config = await getOidcConfig();
 
   const verify: VerifyFunction = async (
-    tokens: client.TokenEndpointResponse & client.TokenEndpointResponseHelpers,
+    tokens: TokenEndpointResponse & TokenEndpointResponseHelpers,
     verified: passport.AuthenticateCallback
   ) => {
     const user = {} as any;

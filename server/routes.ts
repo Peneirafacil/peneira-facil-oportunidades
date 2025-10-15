@@ -11,6 +11,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Auth routes
   app.get('/api/auth/user', isAuthenticated, async (req: any, res) => {
     try {
+      // In dev/no-DB mode, return null so the app shows the Landing page
+      if (!process.env.DATABASE_URL) {
+        return res.json(null);
+      }
       const userId = req.user.claims.sub;
       const user = await storage.getUser(userId);
       res.json(user);
