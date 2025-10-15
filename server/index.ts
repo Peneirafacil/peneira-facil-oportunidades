@@ -7,6 +7,14 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+// Log unhandled errors to keep preview alive
+process.on('unhandledRejection', (reason) => {
+  log(`unhandledRejection: ${String(reason)}`);
+});
+process.on('uncaughtException', (err) => {
+  log(`uncaughtException: ${err.message}`);
+});
+
 app.use((req, res, next) => {
   const start = Date.now();
   const path = req.path;
@@ -65,28 +73,23 @@ app.get('/health', (_req, res) => res.status(200).send('ok'));
     // Do not throw here; let the server keep running so the preview survives
   });
 
-  // importantly only setup vite in development and after
-  // setting up all the other routes so the catch-all route
-  // doesn't interfere with the other routes
-  if (app.get("env") === "development") {
+  // Always try to start Vite dev server for the preview; fallback to static
+  try {
+    await setupVite(app, server);
+  } catch (e) {
+    log(`vite setup failed, trying static: ${(e as Error).message}`, "vite");
     try {
-      await setupVite(app, server);
-    } catch (e) {
-      log(`vite setup failed, falling back to static: ${(e as Error).message}`, "vite");
-      try {
-        serveStatic(app);
-      } catch {
-        app.get("*", (_req, res) => {
-          res
-            .status(200)
-            .send(
-              "<!doctype html><html><head><meta charset=\"utf-8\"><title>Peneira Fácil</title></head><body><h1>Servidor em execução</h1><p>Falha ao iniciar o Vite no modo de desenvolvimento. Tente recarregar a página.</p></body></html>"
-            );
-        });
-      }
+      serveStatic(app);
+    } catch (err) {
+      log(`static fallback failed: ${(err as Error).message}`, "static");
+      app.get("*", (_req, res) => {
+        res
+          .status(200)
+          .send(
+            "<!doctype html><html><head><meta charset=\"utf-8\"><title>Peneira Fácil</title></head><body><h1>Servidor em execução</h1><p>Falha ao iniciar Vite e estático. Tente recarregar.</p></body></html>"
+          );
+      });
     }
-  } else {
-    serveStatic(app);
   }
 
   // ALWAYS serve the app on port 5000

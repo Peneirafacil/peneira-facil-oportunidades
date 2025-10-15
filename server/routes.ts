@@ -2,7 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { setupAuth, isAuthenticated } from "./replitAuth";
-import { insertTryoutSchema, insertPlayerProfileSchema, insertClubHistorySchema, insertVideoPortfolioSchema, insertTryoutRegistrationSchema, insertTryoutCommentSchema } from "@shared/schema";
+import { insertTryoutSchema, insertPlayerProfileSchema, insertClubHistorySchema, insertVideoPortfolioSchema, insertTryoutRegistrationSchema, insertTryoutCommentSchema } from "../shared/schema";
 import { z } from "zod";
 
 // Validation schemas for update operations

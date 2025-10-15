@@ -25,7 +25,7 @@ import {
   type InsertTryoutRegistration,
   type TryoutComment,
   type InsertTryoutComment,
-} from "@shared/schema";
+} from "../shared/schema";
 import { db } from "./db";
 import { eq, desc, and, or, ilike, gte, lte, sql } from "drizzle-orm";
 
