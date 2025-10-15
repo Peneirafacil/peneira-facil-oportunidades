@@ -205,12 +205,13 @@ export class DatabaseStorage implements IStorage {
         const filterDate = new Date(filters.date);
         const nextDay = new Date(filterDate);
         nextDay.setDate(nextDay.getDate() + 1);
-        conditions.push(
-          and(
-            gte(tryouts.date, filterDate),
-            lte(tryouts.date, nextDay)
-          )
+        const dateCondition = and(
+          gte(tryouts.date, filterDate),
+          lte(tryouts.date, nextDay)
         );
+        if (dateCondition) {
+          conditions.push(dateCondition);
+        }
       }
     }
 

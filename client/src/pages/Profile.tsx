@@ -521,7 +521,17 @@ export default function Profile() {
           {/* Sidebar */}
           <div className="space-y-6">
             {/* Subscription Status */}
-            {subscription && <SubscriptionPanel subscription={subscription} />}
+            {subscription && (
+              <SubscriptionPanel 
+                subscription={{
+                  status: subscription.status,
+                  amount: subscription.amount,
+                  paymentMethod: subscription.paymentMethod ?? undefined,
+                  nextBillingDate: subscription.nextBillingDate ?? undefined,
+                  lastPaymentDate: subscription.lastPaymentDate ?? undefined,
+                }}
+              />
+            )}
           </div>
         </div>
       </div>

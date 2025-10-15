@@ -184,14 +184,14 @@ export default function TryoutDetails() {
                       <CardTitle className="text-caps">INFORMAÇÕES DA PENEIRA</CardTitle>
                       <Badge 
                         className={
-                          tryout.status === 'active' 
+                          (tryout.status ?? 'active') === 'active' 
                             ? 'status-badge-active' 
-                            : tryout.status === 'completed' 
+                            : (tryout.status ?? 'active') === 'completed' 
                             ? 'bg-gray-500' 
                             : 'bg-red-500'
                         }
                       >
-                        {tryout.status === 'active' ? 'ATIVO' : tryout.status.toUpperCase()}
+                        {(tryout.status ?? 'active') === 'active' ? 'ATIVO' : (tryout.status ?? 'active').toUpperCase()}
                       </Badge>
                     </div>
                   </CardHeader>
