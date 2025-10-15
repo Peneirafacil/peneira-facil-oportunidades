@@ -30,6 +30,12 @@
   --success: hsl(122, 39%, 49%); /* #28A745 */
   --warning: hsl(45, 100%, 51%); /* #FFC107 */
   --danger: hsl(354, 70%, 54%); /* #DC3545 */
+  
+  /* Hero section colors */
+  --hero-primary: hsl(75, 76%, 54%); /* #A7E22E */
+  --hero-bg-start: hsl(213, 73%, 19%); /* #0B2B54 */
+  --hero-bg-end: hsl(213, 84%, 29%); /* #0A3C8A */
+  --hero-text-light: hsl(216, 19%, 83%); /* #BFC7D1 */
 }
 
 .dark {
@@ -61,7 +67,7 @@
 
   body {
     @apply bg-background text-foreground font-sans antialiased;
-    font-family: 'Inter', 'Roboto', sans-serif;
+    font-family: 'Poppins', 'Inter', 'Roboto', sans-serif;
   }
 
   html {

@@ -29,7 +29,55 @@ export default function Home() {
     <div className="min-h-screen bg-background">
       <Header />
       
-      {/* Hero Section - Tryout Discovery */}
+      {/* Hero Section - Main Call to Action */}
+      <section 
+        className="min-h-[calc(100vh-80px)] flex flex-col items-center justify-center px-5 py-10 relative"
+        style={{
+          background: 'linear-gradient(180deg, hsl(var(--hero-bg-start)) 0%, hsl(var(--hero-bg-end)) 100%)'
+        }}
+      >
+        <div className="max-w-md w-full text-center space-y-6">
+          <div className="space-y-1">
+            <h2 className="text-white font-semibold text-xl md:text-2xl tracking-wider">
+              ENCONTRE A
+            </h2>
+            <h1 className="text-white font-bold text-4xl md:text-5xl tracking-wide leading-tight">
+              PRÓXIMA
+            </h1>
+            <h1 
+              className="font-extrabold text-5xl md:text-6xl leading-tight"
+              style={{ color: 'hsl(var(--hero-primary))' }}
+            >
+              PENEIRA
+            </h1>
+          </div>
+          
+          <p 
+            className="text-base md:text-lg leading-relaxed mx-auto max-w-[340px]"
+            style={{ color: 'hsl(var(--hero-text-light))' }}
+          >
+            A plataforma que conecta atletas às melhores oportunidades do futebol brasileiro
+          </p>
+          
+          <button
+            className="w-full max-w-sm font-bold text-base md:text-lg px-8 py-4 rounded-xl transition-transform hover:scale-105 shadow-lg"
+            style={{
+              backgroundColor: 'hsl(var(--hero-primary))',
+              color: 'hsl(var(--hero-bg-start))'
+            }}
+            onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
+          >
+            VER TODAS AS PENEIRAS
+          </button>
+        </div>
+        
+        {/* Optional football icon */}
+        <div className="absolute top-8 left-8 text-4xl opacity-20">
+          ⚽
+        </div>
+      </section>
+
+      {/* Search & Filter Section */}
       <section className="py-12 bg-gradient-to-br from-background via-gray-800 to-secondary">
         <div className="container mx-auto px-4">
           <div className="text-center mb-8">
