@@ -31,39 +31,40 @@ export default function Home() {
       
       {/* Hero Section - Main Call to Action */}
       <section 
-        className="min-h-[calc(100vh-80px)] flex flex-col items-center justify-center px-5 py-10 relative"
+        className="min-h-[calc(100vh-80px)] flex flex-col items-center justify-center px-5 py-[60px] sm:py-10 relative"
         style={{
-          background: 'linear-gradient(180deg, var(--hero-bg-start) 0%, var(--hero-bg-end) 100%)'
+          background: 'linear-gradient(180deg, hsl(var(--hero-bg-start)) 0%, hsl(var(--hero-bg-end)) 100%)'
         }}
       >
         <div className="max-w-md w-full text-center space-y-6">
-          <div className="space-y-1">
-            <h2 className="text-white font-semibold text-xl md:text-2xl tracking-wider">
+          <div className="space-y-1.5">
+            <h2 className="text-white font-semibold text-[18px] sm:text-[26px] tracking-wide mb-1.5">
               ENCONTRE A
             </h2>
-            <h1 className="text-white font-bold text-4xl md:text-5xl tracking-wide leading-tight">
+            <h1 className="text-white font-bold text-[30px] sm:text-[42px] tracking-wide leading-tight sm:leading-[48px]">
               PRÓXIMA
             </h1>
             <h1 
-              className="font-extrabold text-5xl md:text-6xl leading-tight"
-              style={{ color: 'var(--hero-primary)' }}
+              className="font-extrabold text-[34px] sm:text-[46px] leading-tight sm:leading-[52px] mb-6"
+              style={{ color: `hsl(var(--hero-primary))` }}
             >
               PENEIRA
             </h1>
           </div>
           
           <p 
-            className="text-base md:text-lg leading-relaxed mx-auto max-w-[340px]"
-            style={{ color: 'var(--hero-text-light)' }}
+            className="text-[15px] sm:text-[17px] leading-relaxed sm:leading-6 mx-auto w-[90%] max-w-[360px] mb-11"
+            style={{ color: `hsl(var(--hero-text-light))` }}
           >
             A plataforma que conecta atletas às melhores oportunidades do futebol brasileiro
           </p>
           
           <button
-            className="w-full max-w-sm font-bold text-base md:text-lg px-8 py-4 rounded-xl transition-transform hover:scale-105 shadow-lg"
+            className="w-[80%] sm:w-full max-w-sm font-bold text-[15px] sm:text-[17px] px-10 py-5 sm:py-[18px] rounded-[14px] transition-transform hover:scale-105"
             style={{
-              backgroundColor: 'var(--hero-primary)',
-              color: 'var(--hero-bg-start)'
+              backgroundColor: `hsl(var(--hero-primary))`,
+              color: `hsl(var(--hero-bg-start))`,
+              boxShadow: '0px 3px 10px rgba(0,0,0,0.3)'
             }}
             onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
           >
