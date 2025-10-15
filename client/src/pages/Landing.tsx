@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -93,12 +94,11 @@ export default function Landing() {
                 <p className="text-muted-foreground text-lg">
                   Use os filtros acima para encontrar peneiras na sua região
                 </p>
-                <Button 
-                  onClick={() => window.location.href = "/api/login"}
-                  className="mt-4 cta-button"
-                >
-                  FAZER LOGIN PARA VER TODAS AS PENEIRAS
-                </Button>
+                <Link href="/auth">
+                  <Button className="mt-4 cta-button">
+                    FAZER LOGIN PARA VER TODAS AS PENEIRAS
+                  </Button>
+                </Link>
               </div>
             )}
           </div>
@@ -204,12 +204,11 @@ export default function Landing() {
                   </div>
                 </div>
                 
-                <Button 
-                  onClick={() => window.location.href = "/api/login"}
-                  className="cta-button text-lg px-8 py-4"
-                >
-                  COMEÇAR AGORA
-                </Button>
+                <Link href="/auth">
+                  <Button className="cta-button text-lg px-8 py-4">
+                    COMEÇAR AGORA
+                  </Button>
+                </Link>
               </CardContent>
             </Card>
           </div>

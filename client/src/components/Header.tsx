@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
 import { Menu, Home, User, Phone, FileText, HelpCircle, LogOut, Bell } from "lucide-react";
 import NotificationButton from "./NotificationButton";
+import { supabase } from "@/integrations/supabase/client";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -48,7 +49,10 @@ export default function Header() {
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => window.location.href = "/api/logout"}
+                onClick={async () => {
+                  await supabase.auth.signOut();
+                  window.location.href = "/";
+                }}
                 className="hidden md:flex items-center space-x-2"
               >
                 <LogOut className="h-4 w-4" />
@@ -56,12 +60,11 @@ export default function Header() {
               </Button>
             </>
           ) : (
-            <Button
-              onClick={() => window.location.href = "/api/login"}
-              className="cta-button hidden md:block"
-            >
-              ENTRAR
-            </Button>
+            <Link href="/auth">
+              <Button className="cta-button hidden md:block">
+                ENTRAR
+              </Button>
+            </Link>
           )}
 
           {/* Hamburger Menu */}
@@ -102,9 +105,10 @@ export default function Header() {
                 
                 {isAuthenticated ? (
                   <button
-                    onClick={() => {
+                    onClick={async () => {
                       setIsMenuOpen(false);
-                      window.location.href = "/api/logout";
+                      await supabase.auth.signOut();
+                      window.location.href = "/";
                     }}
                     className="flex items-center space-x-3 p-3 rounded-lg transition-colors hover:bg-red-500 hover:text-white w-full text-left"
                   >
@@ -112,16 +116,15 @@ export default function Header() {
                     <span>Sair</span>
                   </button>
                 ) : (
-                  <button
-                    onClick={() => {
-                      setIsMenuOpen(false);
-                      window.location.href = "/api/login";
-                    }}
-                    className="flex items-center space-x-3 p-3 rounded-lg transition-colors bg-primary text-background hover:bg-[hsl(var(--cta-green))] w-full text-left font-bold"
-                  >
-                    <User className="h-5 w-5" />
-                    <span>ENTRAR</span>
-                  </button>
+                  <Link href="/auth">
+                    <button
+                      onClick={() => setIsMenuOpen(false)}
+                      className="flex items-center space-x-3 p-3 rounded-lg transition-colors bg-primary text-background hover:bg-[hsl(var(--cta-green))] w-full text-left font-bold"
+                    >
+                      <User className="h-5 w-5" />
+                      <span>ENTRAR</span>
+                    </button>
+                  </Link>
                 )}
               </nav>
             </SheetContent>

@@ -9,23 +9,30 @@ import Home from "@/pages/Home";
 import Profile from "@/pages/Profile";
 import TryoutDetails from "@/pages/TryoutDetails";
 import Ranking from "@/pages/Ranking";
+import Auth from "@/pages/Auth";
 import NotFound from "@/pages/not-found";
 
 function Router() {
   const { isAuthenticated, isLoading } = useAuth();
 
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+          <p className="mt-4 text-muted-foreground">Carregando...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <Switch>
-      {isLoading || !isAuthenticated ? (
-        <Route path="/" component={Landing} />
-      ) : (
-        <>
-          <Route path="/" component={Home} />
-          <Route path="/profile" component={Profile} />
-          <Route path="/ranking" component={Ranking} />
-          <Route path="/tryout/:id" component={TryoutDetails} />
-        </>
-      )}
+      <Route path="/" component={isAuthenticated ? Home : Landing} />
+      <Route path="/auth" component={Auth} />
+      <Route path="/profile" component={Profile} />
+      <Route path="/ranking" component={Ranking} />
+      <Route path="/tryout/:id" component={TryoutDetails} />
       <Route component={NotFound} />
     </Switch>
   );
