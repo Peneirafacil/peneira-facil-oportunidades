@@ -43,7 +43,7 @@ export default function Header() {
             <>
               <NotificationButton />
               <span className="hidden md:block text-sm text-muted-foreground">
-                Olá, {user?.firstName || 'Usuário'}!
+                Olá, {user?.user_metadata?.name || user?.email || 'Usuário'}!
               </span>
               <Button
                 variant="outline"
