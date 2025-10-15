@@ -1,4 +1,5 @@
 import express, { type Request, Response, NextFunction } from "express";
+import { createServer, type Server } from "http";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 
@@ -36,8 +37,25 @@ app.use((req, res, next) => {
   next();
 });
 
+// Healthcheck for load balancer and preview
+app.get('/health', (_req, res) => res.status(200).send('ok'));
+
 (async () => {
-  const server = await registerRoutes(app);
+  let server: Server;
+  try {
+    server = await registerRoutes(app);
+  } catch (e) {
+    log(`routes setup failed: ${(e as Error).message}`, "routes");
+    // Minimal fallback so preview still loads
+    app.get("/", (_req, res) => {
+      res
+        .status(200)
+        .send(
+          "<!doctype html><html><head><meta charset=\"utf-8\"><title>Peneira Fácil</title></head><body><h1>Servidor em execução</h1><p>Rotas indisponíveis no momento.</p></body></html>"
+        );
+    });
+    server = createServer(app);
+  }
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     const status = err.status || err.statusCode || 500;

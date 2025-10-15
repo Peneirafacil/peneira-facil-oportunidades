@@ -9,7 +9,7 @@ import { nanoid } from "nanoid";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-const viteLogger = createLogger();
+// Vite logger will be created lazily inside setupVite
 
 export function log(message: string, source = "express") {
   const formattedTime = new Date().toLocaleTimeString("en-US", {
@@ -31,13 +31,6 @@ export async function setupVite(app: Express, server: Server) {
 
   const vite = await createViteServer({
     configFile: path.resolve(__dirname, "..", "vite.config.ts"),
-    customLogger: {
-      ...viteLogger,
-      error: (msg, options) => {
-        // Log Vite errors but do not crash the server; let the client show overlay
-        viteLogger.error(msg, options);
-      },
-    },
     server: serverOptions,
     appType: "custom",
   });
