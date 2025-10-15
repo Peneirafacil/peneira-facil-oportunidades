@@ -16,7 +16,7 @@ export default function Landing() {
   const [searchFilters, setSearchFilters] = useState({
     city: "",
     state: "",
-    modality: "Campo",
+    modality: "",
     dateOfBirth: "",
   });
 

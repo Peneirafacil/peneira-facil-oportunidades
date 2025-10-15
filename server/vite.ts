@@ -33,8 +33,8 @@ export async function setupVite(app: Express, server: Server) {
     customLogger: {
       ...viteLogger,
       error: (msg, options) => {
+        // Log Vite errors but do not crash the server; let the client show overlay
         viteLogger.error(msg, options);
-        process.exit(1);
       },
     },
     server: serverOptions,

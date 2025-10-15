@@ -133,6 +133,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Tryout routes
   app.get('/api/tryouts', async (req, res) => {
     try {
+      // In environments without a configured database, return an empty list
+      if (!process.env.DATABASE_URL) {
+        return res.json([]);
+      }
       const filters = {
         city: req.query.city as string,
         state: req.query.state as string,
@@ -141,12 +145,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
         ageMax: req.query.ageMax ? parseInt(req.query.ageMax as string) : undefined,
         date: req.query.date as string,
       };
-      
       // Remove undefined values
       const cleanFilters = Object.fromEntries(
         Object.entries(filters).filter(([_, v]) => v !== undefined)
       );
-      
       const tryouts = await storage.getTryouts(cleanFilters);
       res.json(tryouts);
     } catch (error) {
@@ -157,6 +159,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.get('/api/tryouts/:id', async (req, res) => {
     try {
+      if (!process.env.DATABASE_URL) {
+        return res.status(404).json({ message: "Tryout not found" });
+      }
       const id = parseInt(req.params.id);
       const tryout = await storage.getTryout(id);
       if (!tryout) {
