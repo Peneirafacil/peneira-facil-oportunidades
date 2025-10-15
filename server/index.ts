@@ -51,7 +51,22 @@ app.use((req, res, next) => {
   // setting up all the other routes so the catch-all route
   // doesn't interfere with the other routes
   if (app.get("env") === "development") {
-    await setupVite(app, server);
+    try {
+      await setupVite(app, server);
+    } catch (e) {
+      log(`vite setup failed, falling back to static: ${(e as Error).message}`, "vite");
+      try {
+        serveStatic(app);
+      } catch {
+        app.get("*", (_req, res) => {
+          res
+            .status(200)
+            .send(
+              "<!doctype html><html><head><meta charset=\"utf-8\"><title>Peneira Fácil</title></head><body><h1>Servidor em execução</h1><p>Falha ao iniciar o Vite no modo de desenvolvimento. Tente recarregar a página.</p></body></html>"
+            );
+        });
+      }
+    }
   } else {
     serveStatic(app);
   }
