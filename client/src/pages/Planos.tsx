@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { supabase } from "@/integrations/supabase/client";
 import Header from "@/components/Header";
@@ -6,18 +6,18 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle, Copy, Loader2, RefreshCw, X } from "lucide-react";
+import { CheckCircle, Loader2, X, Gift } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
-type CheckoutStep = "plans" | "form" | "pix" | "success";
+type CheckoutStep = "plans" | "form" | "success";
+type PlanType = "monthly_1490" | "anual" | "oferta_exclusiva" | "promo_mes_gratis_retorno";
 
-interface PixData {
-  payment_id: string;
-  pix_copy_paste: string | null;
-  pix_qr_code: string | null;
-  billing_url: string;
-  expires_at: string;
-}
+const PLAN_DISPLAY: Record<PlanType, { label: string; price: number; duration: string }> = {
+  monthly_1490: { label: "Plano Mensal", price: 14.90, duration: "/mês" },
+  anual: { label: "Plano Anual", price: 99.00, duration: "/ano" },
+  oferta_exclusiva: { label: "Oferta de Boas-Vindas", price: 5.90, duration: "/mês" },
+  promo_mes_gratis_retorno: { label: "Oferta de Retorno", price: 9.90, duration: "/2 meses" },
+};
 
 export default function Planos() {
   const [, setLocation] = useLocation();
@@ -29,21 +29,16 @@ export default function Planos() {
     subscription_expires_at: string | null;
     full_name: string | null;
   } | null>(null);
+  const [hasRedeemedOffer590, setHasRedeemedOffer590] = useState(false);
   const [profileLoading, setProfileLoading] = useState(true);
 
   const [step, setStep] = useState<CheckoutStep>("plans");
-  const [selectedPlan, setSelectedPlan] = useState<"monthly_1490" | "anual">("monthly_1490");
+  const [selectedPlan, setSelectedPlan] = useState<PlanType>("monthly_1490");
   const [submitting, setSubmitting] = useState(false);
-  const [pixData, setPixData] = useState<PixData | null>(null);
-  const [pixStatus, setPixStatus] = useState<"pending" | "paid" | "expired">("pending");
-  const [copied, setCopied] = useState(false);
 
   const [form, setForm] = useState({ name: "", cpf: "", phone: "" });
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
 
-  const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
-
-  // Detect success redirect from AbacatePay
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     if (params.get("pix_success") === "true") {
@@ -56,14 +51,26 @@ export default function Planos() {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) { setProfileLoading(false); return; }
 
-      const { data } = await supabase
-        .from("profiles")
-        .select("subscription_provider, subscription_tier, subscription_expires_at, full_name")
-        .eq("id", user.id)
-        .single();
+      const [profileResult, pixResult] = await Promise.all([
+        supabase
+          .from("profiles")
+          .select("subscription_provider, subscription_tier, subscription_expires_at, full_name")
+          .eq("id", user.id)
+          .single(),
+        supabase
+          .from("pix_payments")
+          .select("id")
+          .eq("user_id", user.id)
+          .eq("plan", "oferta_exclusiva")
+          .eq("status", "paid")
+          .limit(1),
+      ]);
 
-      setProfile(data ?? null);
-      if (data?.full_name) setForm(f => ({ ...f, name: f.name || data.full_name || "" }));
+      setProfile(profileResult.data ?? null);
+      setHasRedeemedOffer590(!!(pixResult.data && pixResult.data.length > 0));
+      if (profileResult.data?.full_name) {
+        setForm(f => ({ ...f, name: f.name || profileResult.data?.full_name || "" }));
+      }
       setProfileLoading(false);
     }
     loadProfile();
@@ -79,37 +86,12 @@ export default function Planos() {
     new Date(profile.subscription_expires_at) > new Date()
   );
 
-  const stopPolling = () => {
-    if (pollRef.current) { clearInterval(pollRef.current); pollRef.current = null; }
-  };
-
-  useEffect(() => () => stopPolling(), []);
-
-  const startPolling = (paymentId: string) => {
-    stopPolling();
-    pollRef.current = setInterval(async () => {
-      try {
-        const { data: { session } } = await supabase.auth.getSession();
-        if (!session) return;
-
-        const res = await supabase.functions.invoke("check-pix-status", {
-          body: { payment_id: paymentId },
-        });
-
-        if (res.error) return;
-        const data = res.data as { status: string };
-
-        if (data.status === "paid") {
-          stopPolling();
-          setPixStatus("paid");
-          setStep("success");
-        } else if (data.status === "expired") {
-          stopPolling();
-          setPixStatus("expired");
-        }
-      } catch (_) { /* ignore */ }
-    }, 4000);
-  };
+  // Welcome gift config
+  const giftPlan: PlanType = !isReturningUser ? "oferta_exclusiva" : "promo_mes_gratis_retorno";
+  const giftPrice = !isReturningUser ? 5.90 : 9.90;
+  const giftSuffix = !isReturningUser
+    ? "somente esse mês"
+    : "+ 1 mês grátis";
 
   const formatCPF = (v: string) => {
     const n = v.replace(/\D/g, "").slice(0, 11);
@@ -159,9 +141,12 @@ export default function Planos() {
         return;
       }
 
-      setPixData(res.data as PixData);
-      setStep("pix");
-      startPolling(res.data.payment_id);
+      const billingUrl: string | undefined = res.data.billing_url;
+      if (billingUrl) {
+        window.location.href = billingUrl;
+      } else {
+        toast({ title: "Erro", description: "URL de pagamento não encontrada", variant: "destructive" });
+      }
     } catch (e: any) {
       toast({ title: "Erro", description: e.message || "Tente novamente", variant: "destructive" });
     } finally {
@@ -169,19 +154,12 @@ export default function Planos() {
     }
   };
 
-  const handleCopy = () => {
-    if (!pixData?.pix_copy_paste) return;
-    navigator.clipboard.writeText(pixData.pix_copy_paste);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 3000);
-    toast({ title: "Copiado!", description: "Código Pix copiado para a área de transferência" });
+  const selectAndGo = (plan: PlanType) => {
+    setSelectedPlan(plan);
+    setStep("form");
   };
 
-  // ─── Plans display ─────────────────────────────────────────────────────────
-
-  const planMonthlyPrice = 14.90;
-  const planAnualPrice = 99.00;
-  const oldMonthlyPrice = 9.90;
+  // ─── Success ────────────────────────────────────────────────────────────────
 
   if (step === "success") {
     return (
@@ -203,105 +181,10 @@ export default function Planos() {
     );
   }
 
-  if (step === "pix" && pixData) {
-    return (
-      <div className="min-h-screen bg-background">
-        <Header />
-        <div className="container mx-auto px-4 py-10 max-w-md">
-          <button
-            onClick={() => { stopPolling(); setStep("form"); }}
-            className="flex items-center gap-1 text-sm text-muted-foreground mb-6 hover:text-foreground"
-          >
-            <X className="w-4 h-4" /> Cancelar
-          </button>
-
-          <Card>
-            <CardContent className="p-6 text-center space-y-6">
-              <div>
-                <Badge className="mb-3 bg-green-600 text-white">PIX</Badge>
-                <h2 className="text-2xl font-bold">
-                  {selectedPlan === "anual"
-                    ? `R$ ${planAnualPrice.toFixed(2).replace(".", ",")}`
-                    : `R$ ${planMonthlyPrice.toFixed(2).replace(".", ",")}`}
-                </h2>
-                <p className="text-sm text-muted-foreground mt-1">
-                  {selectedPlan === "anual" ? "Plano Anual" : "Plano Mensal"}
-                </p>
-              </div>
-
-              {pixStatus === "expired" ? (
-                <div className="space-y-3">
-                  <p className="text-destructive font-medium">Pix expirado</p>
-                  <Button
-                    variant="outline"
-                    className="w-full"
-                    onClick={() => { setStep("form"); setPixData(null); setPixStatus("pending"); }}
-                  >
-                    <RefreshCw className="w-4 h-4 mr-2" /> Gerar novo Pix
-                  </Button>
-                </div>
-              ) : (
-                <>
-                  {pixData.pix_qr_code ? (
-                    <img
-                      src={`data:image/png;base64,${pixData.pix_qr_code}`}
-                      alt="QR Code Pix"
-                      className="w-48 h-48 mx-auto rounded-lg border"
-                      onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
-                    />
-                  ) : (
-                    <div className="w-48 h-48 mx-auto bg-muted rounded-lg flex items-center justify-center">
-                      <p className="text-xs text-muted-foreground">QR Code indisponível</p>
-                    </div>
-                  )}
-
-                  <div className="space-y-2">
-                    <p className="text-sm text-muted-foreground">
-                      Escaneie o QR code ou copie o código abaixo
-                    </p>
-                    {pixData.pix_copy_paste && (
-                      <div className="bg-muted rounded-lg p-3 break-all text-xs font-mono text-left">
-                        {pixData.pix_copy_paste.slice(0, 60)}...
-                      </div>
-                    )}
-                    <Button
-                      className="cta-button w-full"
-                      onClick={handleCopy}
-                      disabled={!pixData.pix_copy_paste}
-                    >
-                      {copied ? (
-                        <><CheckCircle className="w-4 h-4 mr-2" /> Copiado!</>
-                      ) : (
-                        <><Copy className="w-4 h-4 mr-2" /> Copiar código Pix</>
-                      )}
-                    </Button>
-                  </div>
-
-                  <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
-                    <Loader2 className="w-4 h-4 animate-spin" />
-                    Aguardando pagamento...
-                  </div>
-
-                  {pixData.billing_url && (
-                    <a
-                      href={pixData.billing_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="block text-xs text-primary underline"
-                    >
-                      Abrir página de pagamento
-                    </a>
-                  )}
-                </>
-              )}
-            </CardContent>
-          </Card>
-        </div>
-      </div>
-    );
-  }
+  // ─── Form ────────────────────────────────────────────────────────────────────
 
   if (step === "form") {
+    const plan = PLAN_DISPLAY[selectedPlan];
     return (
       <div className="min-h-screen bg-background">
         <Header />
@@ -318,9 +201,7 @@ export default function Planos() {
               <div className="text-center">
                 <h2 className="text-xl font-bold">Dados para o Pix</h2>
                 <p className="text-sm text-muted-foreground mt-1">
-                  {selectedPlan === "anual"
-                    ? `Plano Anual — R$ ${planAnualPrice.toFixed(2).replace(".", ",")}`
-                    : `Plano Mensal — R$ ${planMonthlyPrice.toFixed(2).replace(".", ",")}/mês`}
+                  {plan.label} — R$ {plan.price.toFixed(2).replace(".", ",")}{plan.duration}
                 </p>
               </div>
 
@@ -383,7 +264,7 @@ export default function Planos() {
     );
   }
 
-  // ─── Plans page ────────────────────────────────────────────────────────────
+  // ─── Plans ───────────────────────────────────────────────────────────────────
 
   return (
     <div className="min-h-screen bg-background">
@@ -409,15 +290,52 @@ export default function Planos() {
           ) : (
             <div className="flex flex-col gap-6">
 
-              {/* Plano Mensal */}
-              <Card className={`relative border-2 ${selectedPlan === "monthly_1490" ? "border-primary" : "border-border"}`}>
-                {!isReturningUser && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                    <Badge className="bg-primary text-white px-4 py-1 text-xs font-bold uppercase">
-                      Mais Popular
-                    </Badge>
+              {/* ── Presente de Boas-Vindas ── */}
+              {!isActiveSubscriber && (
+                <Card className="border-2 border-primary overflow-hidden">
+                  <div className="gradient-primary px-4 py-2 flex items-center gap-2">
+                    <Gift className="w-4 h-4 text-white" />
+                    <span className="text-white text-sm font-bold uppercase tracking-wide">
+                      Presente de Boas-Vindas
+                    </span>
                   </div>
-                )}
+                  <CardContent className="p-5">
+                    {hasRedeemedOffer590 ? (
+                      <div className="text-center py-3">
+                        <CheckCircle className="w-10 h-10 text-green-500 mx-auto mb-2" />
+                        <p className="font-bold text-lg">Presente Resgatado</p>
+                        <p className="text-sm text-muted-foreground mt-1">
+                          Você já utilizou sua oferta de boas-vindas
+                        </p>
+                      </div>
+                    ) : (
+                      <>
+                        <div className="flex justify-between items-center mb-4">
+                          <div>
+                            <p className="text-sm text-muted-foreground line-through">R$ 14,90</p>
+                            <p className="text-3xl font-black text-primary">
+                              R$ {giftPrice.toFixed(2).replace(".", ",")}
+                            </p>
+                            <p className="text-xs text-muted-foreground mt-0.5">{giftSuffix}</p>
+                          </div>
+                          <Badge className="bg-primary/10 text-primary border border-primary/30 text-xs px-3 py-1">
+                            {!isReturningUser ? "Só esse mês" : "+ 1 mês grátis"}
+                          </Badge>
+                        </div>
+                        <Button
+                          className="cta-button w-full"
+                          onClick={() => selectAndGo(giftPlan)}
+                        >
+                          RESGATAR OFERTA — R$ {giftPrice.toFixed(2).replace(".", ",")}
+                        </Button>
+                      </>
+                    )}
+                  </CardContent>
+                </Card>
+              )}
+
+              {/* ── Plano Mensal ── */}
+              <Card className="relative border-2 border-border">
                 <CardContent className="p-6">
                   <div className="flex justify-between items-start">
                     <div>
@@ -426,13 +344,9 @@ export default function Planos() {
                     </div>
                     <div className="text-right">
                       {!isReturningUser && (
-                        <p className="text-sm text-muted-foreground line-through">
-                          R$ {oldMonthlyPrice.toFixed(2).replace(".", ",")}
-                        </p>
+                        <p className="text-sm text-muted-foreground line-through">R$ 9,90</p>
                       )}
-                      <p className="text-3xl font-black text-primary">
-                        R$ {planMonthlyPrice.toFixed(2).replace(".", ",")}
-                      </p>
+                      <p className="text-3xl font-black text-primary">R$ 14,90</p>
                       <p className="text-xs text-muted-foreground">por mês</p>
                     </div>
                   </div>
@@ -443,28 +357,25 @@ export default function Planos() {
                       "Filtros avançados de busca",
                       "Perfil completo de atleta",
                       "Notificações personalizadas",
-                    ].map(f => (
-                      <li key={f} className="flex items-center gap-2">
+                    ].map(feat => (
+                      <li key={feat} className="flex items-center gap-2">
                         <CheckCircle className="w-4 h-4 text-green-500 shrink-0" />
-                        {f}
+                        {feat}
                       </li>
                     ))}
                   </ul>
 
                   <Button
                     className="cta-button w-full mt-5"
-                    onClick={() => {
-                      setSelectedPlan("monthly_1490");
-                      setStep("form");
-                    }}
+                    onClick={() => selectAndGo("monthly_1490")}
                   >
                     {isActiveSubscriber ? "RENOVAR PLANO" : isReturningUser ? "ASSINAR AGORA" : "COMEÇAR AGORA"}
                   </Button>
                 </CardContent>
               </Card>
 
-              {/* Plano Anual */}
-              <Card className={`relative border-2 ${selectedPlan === "anual" ? "border-primary" : "border-border"}`}>
+              {/* ── Plano Anual ── */}
+              <Card className="relative border-2 border-border">
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2">
                   <Badge className="bg-green-600 text-white px-4 py-1 text-xs font-bold uppercase">
                     Melhor Custo-Benefício
@@ -477,9 +388,7 @@ export default function Planos() {
                       <p className="text-sm text-muted-foreground">365 dias — equivale a R$ 8,25/mês</p>
                     </div>
                     <div className="text-right">
-                      <p className="text-3xl font-black text-primary">
-                        R$ {planAnualPrice.toFixed(2).replace(".", ",")}
-                      </p>
+                      <p className="text-3xl font-black text-primary">R$ 99,00</p>
                       <p className="text-xs text-muted-foreground">por ano</p>
                     </div>
                   </div>
@@ -490,10 +399,10 @@ export default function Planos() {
                       "12 meses de acesso contínuo",
                       "Maior economia — 45% off",
                       "Notificações prioritárias",
-                    ].map(f => (
-                      <li key={f} className="flex items-center gap-2">
+                    ].map(feat => (
+                      <li key={feat} className="flex items-center gap-2">
                         <CheckCircle className="w-4 h-4 text-green-500 shrink-0" />
-                        {f}
+                        {feat}
                       </li>
                     ))}
                   </ul>
@@ -501,10 +410,7 @@ export default function Planos() {
                   <Button
                     variant="outline"
                     className="w-full mt-5 border-primary text-primary hover:bg-primary hover:text-white"
-                    onClick={() => {
-                      setSelectedPlan("anual");
-                      setStep("form");
-                    }}
+                    onClick={() => selectAndGo("anual")}
                   >
                     {isActiveSubscriber ? "RENOVAR ANUAL" : "ASSINAR ANUAL"}
                   </Button>
