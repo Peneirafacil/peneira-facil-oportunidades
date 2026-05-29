@@ -256,12 +256,22 @@ export default function Profile() {
                   </Avatar>
                   
                   <div className="text-center md:text-left flex-1">
-                    <h1 className="text-3xl font-bold mb-2">
-                      {profile?.bio || "Seu Nome"}
-                    </h1>
-                    <p className="text-white/80 mb-4 max-w-md">
-                      {profileData.bio || "Adicione uma biografia para se destacar"}
-                    </p>
+                    <div className="flex items-start gap-4">
+                      <div className="flex-1">
+                        <h1 className="text-3xl font-bold mb-2">
+                          {profile?.bio || "Seu Nome"}
+                        </h1>
+                        <p className="text-white/80 mb-4 max-w-md">
+                          {profileData.bio || "Adicione uma biografia para se destacar"}
+                        </p>
+                      </div>
+                      {(profile as any)?.ovr != null && (
+                        <div className="bg-white/20 backdrop-blur-sm rounded-lg px-4 py-2 text-center border border-white/30 shrink-0">
+                          <div className="text-3xl font-black text-white leading-none">{(profile as any).ovr}</div>
+                          <div className="text-xs font-bold text-white/80 uppercase">OVR</div>
+                        </div>
+                      )}
+                    </div>
                     
                     <div className="flex flex-wrap justify-center md:justify-start gap-4">
                       {profileData.state && (

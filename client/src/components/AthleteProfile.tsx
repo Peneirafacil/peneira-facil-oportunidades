@@ -10,6 +10,7 @@ interface AthleteProfileProps {
     position: string;
     modality: string;
     gender: string;
+    ovr?: number | null;
     clubHistory: Array<{
       clubName: string;
       startYear: number;
@@ -40,13 +41,20 @@ export default function AthleteProfile({ athlete }: AthleteProfileProps) {
           </AvatarFallback>
         </Avatar>
         
+        {athlete.ovr != null && (
+          <div className="absolute top-4 right-4 bg-white/20 backdrop-blur-sm rounded-lg px-3 py-1 text-center border border-white/30">
+            <div className="text-2xl font-black text-white leading-none">{athlete.ovr}</div>
+            <div className="text-xs font-bold text-white/80 uppercase">OVR</div>
+          </div>
+        )}
+
         <h3 className="text-center mt-4 text-xl font-bold text-white">
           {athlete.name}
         </h3>
         <p className="text-center text-sm text-white/80 mt-1 line-clamp-2">
           {athlete.bio}
         </p>
-        
+
         {/* Stats */}
         <div className="flex justify-center space-x-6 mt-4">
           <div className="text-center">

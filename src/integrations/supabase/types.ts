@@ -645,6 +645,7 @@ export type Database = {
           id: string
           instagram: string | null
           is_athlete: boolean | null
+          ovr: number | null
           phone_athlete: string | null
           phone_guardian: string | null
           photo_url: string | null
@@ -675,6 +676,7 @@ export type Database = {
           id: string
           instagram?: string | null
           is_athlete?: boolean | null
+          ovr?: number | null
           phone_athlete?: string | null
           phone_guardian?: string | null
           photo_url?: string | null
@@ -705,6 +707,7 @@ export type Database = {
           id?: string
           instagram?: string | null
           is_athlete?: boolean | null
+          ovr?: number | null
           phone_athlete?: string | null
           phone_guardian?: string | null
           photo_url?: string | null
@@ -1049,6 +1052,7 @@ export type Database = {
           id: string | null
           instagram: string | null
           is_athlete: boolean | null
+          ovr: number | null
           photo_url: string | null
           position: string | null
           state: string | null
@@ -1060,6 +1064,7 @@ export type Database = {
           id?: string | null
           instagram?: string | null
           is_athlete?: boolean | null
+          ovr?: number | null
           photo_url?: string | null
           position?: string | null
           state?: string | null
@@ -1071,6 +1076,7 @@ export type Database = {
           id?: string | null
           instagram?: string | null
           is_athlete?: boolean | null
+          ovr?: number | null
           photo_url?: string | null
           position?: string | null
           state?: string | null
