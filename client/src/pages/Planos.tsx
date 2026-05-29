@@ -6,17 +6,15 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle, Loader2, X, Gift } from "lucide-react";
+import { CheckCircle, Loader2, X } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 type CheckoutStep = "plans" | "form" | "success";
-type PlanType = "monthly_1490" | "anual" | "oferta_exclusiva" | "promo_mes_gratis_retorno";
+type PlanType = "monthly_1490" | "anual";
 
 const PLAN_DISPLAY: Record<PlanType, { label: string; price: number; duration: string }> = {
   monthly_1490: { label: "Plano Mensal", price: 14.90, duration: "/mês" },
   anual: { label: "Plano Anual", price: 99.00, duration: "/ano" },
-  oferta_exclusiva: { label: "Oferta de Boas-Vindas", price: 5.90, duration: "/mês" },
-  promo_mes_gratis_retorno: { label: "Oferta de Retorno", price: 9.90, duration: "/2 meses" },
 };
 
 export default function Planos() {
@@ -29,7 +27,6 @@ export default function Planos() {
     subscription_expires_at: string | null;
     full_name: string | null;
   } | null>(null);
-  const [hasRedeemedOffer590, setHasRedeemedOffer590] = useState(false);
   const [profileLoading, setProfileLoading] = useState(true);
 
   const [step, setStep] = useState<CheckoutStep>("plans");
@@ -51,26 +48,14 @@ export default function Planos() {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) { setProfileLoading(false); return; }
 
-      const [profileResult, pixResult] = await Promise.all([
-        supabase
-          .from("profiles")
-          .select("subscription_provider, subscription_tier, subscription_expires_at, full_name")
-          .eq("id", user.id)
-          .single(),
-        supabase
-          .from("pix_payments")
-          .select("id")
-          .eq("user_id", user.id)
-          .eq("plan", "oferta_exclusiva")
-          .eq("status", "paid")
-          .limit(1),
-      ]);
+      const { data } = await supabase
+        .from("profiles")
+        .select("subscription_provider, subscription_tier, subscription_expires_at, full_name")
+        .eq("id", user.id)
+        .single();
 
-      setProfile(profileResult.data ?? null);
-      setHasRedeemedOffer590(!!(pixResult.data && pixResult.data.length > 0));
-      if (profileResult.data?.full_name) {
-        setForm(f => ({ ...f, name: f.name || profileResult.data?.full_name || "" }));
-      }
+      setProfile(data ?? null);
+      if (data?.full_name) setForm(f => ({ ...f, name: f.name || data.full_name || "" }));
       setProfileLoading(false);
     }
     loadProfile();
@@ -85,13 +70,6 @@ export default function Planos() {
     profile?.subscription_expires_at &&
     new Date(profile.subscription_expires_at) > new Date()
   );
-
-  // Welcome gift config
-  const giftPlan: PlanType = !isReturningUser ? "oferta_exclusiva" : "promo_mes_gratis_retorno";
-  const giftPrice = !isReturningUser ? 5.90 : 9.90;
-  const giftSuffix = !isReturningUser
-    ? "somente esse mês"
-    : "+ 1 mês grátis";
 
   const formatCPF = (v: string) => {
     const n = v.replace(/\D/g, "").slice(0, 11);
@@ -290,52 +268,13 @@ export default function Planos() {
           ) : (
             <div className="flex flex-col gap-6">
 
-              {/* ── Presente de Boas-Vindas ── */}
-              {!isActiveSubscriber && (
-                <Card className="border-2 border-primary overflow-hidden">
-                  <div className="gradient-primary px-4 py-2 flex items-center gap-2">
-                    <Gift className="w-4 h-4 text-white" />
-                    <span className="text-white text-sm font-bold uppercase tracking-wide">
-                      Presente de Boas-Vindas
-                    </span>
-                  </div>
-                  <CardContent className="p-5">
-                    {hasRedeemedOffer590 ? (
-                      <div className="text-center py-3">
-                        <CheckCircle className="w-10 h-10 text-green-500 mx-auto mb-2" />
-                        <p className="font-bold text-lg">Presente Resgatado</p>
-                        <p className="text-sm text-muted-foreground mt-1">
-                          Você já utilizou sua oferta de boas-vindas
-                        </p>
-                      </div>
-                    ) : (
-                      <>
-                        <div className="flex justify-between items-center mb-4">
-                          <div>
-                            <p className="text-sm text-muted-foreground line-through">R$ 14,90</p>
-                            <p className="text-3xl font-black text-primary">
-                              R$ {giftPrice.toFixed(2).replace(".", ",")}
-                            </p>
-                            <p className="text-xs text-muted-foreground mt-0.5">{giftSuffix}</p>
-                          </div>
-                          <Badge className="bg-primary/10 text-primary border border-primary/30 text-xs px-3 py-1">
-                            {!isReturningUser ? "Só esse mês" : "+ 1 mês grátis"}
-                          </Badge>
-                        </div>
-                        <Button
-                          className="cta-button w-full"
-                          onClick={() => selectAndGo(giftPlan)}
-                        >
-                          RESGATAR OFERTA — R$ {giftPrice.toFixed(2).replace(".", ",")}
-                        </Button>
-                      </>
-                    )}
-                  </CardContent>
-                </Card>
-              )}
-
               {/* ── Plano Mensal ── */}
-              <Card className="relative border-2 border-border">
+              <Card className="relative border-2 border-primary">
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+                  <Badge className="bg-primary text-white px-4 py-1 text-xs font-bold uppercase">
+                    Mais Popular
+                  </Badge>
+                </div>
                 <CardContent className="p-6">
                   <div className="flex justify-between items-start">
                     <div>
