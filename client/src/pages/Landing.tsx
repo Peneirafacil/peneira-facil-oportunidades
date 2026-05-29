@@ -177,8 +177,9 @@ export default function Landing() {
             <Card className="text-center p-8">
               <CardContent>
                 <div className="mb-6">
-                  <h3 className="text-3xl font-bold text-primary mb-2">R$ 12,00</h3>
-                  <p className="text-muted-foreground">por mês</p>
+                  <p className="text-sm text-muted-foreground line-through">R$ 9,90</p>
+                  <h3 className="text-3xl font-bold text-primary mb-2">R$ 14,90</h3>
+                  <p className="text-muted-foreground">por mês · ou R$ 99,00/ano</p>
                 </div>
                 
                 <div className="space-y-4 mb-8">
@@ -204,9 +205,9 @@ export default function Landing() {
                   </div>
                 </div>
                 
-                <Link href="/auth">
+                <Link href="/planos">
                   <Button className="cta-button text-lg px-8 py-4">
-                    COMEÇAR AGORA
+                    VER PLANOS
                   </Button>
                 </Link>
               </CardContent>

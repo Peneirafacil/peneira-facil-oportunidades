@@ -10,6 +10,7 @@ import Profile from "@/pages/Profile";
 import TryoutDetails from "@/pages/TryoutDetails";
 import Ranking from "@/pages/Ranking";
 import Auth from "@/pages/Auth";
+import Planos from "@/pages/Planos";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -31,6 +32,7 @@ function Router() {
       <Route path="/" component={isAuthenticated ? Home : Landing} />
       <Route path="/auth" component={Auth} />
       <Route path="/profile" component={Profile} />
+      <Route path="/planos" component={Planos} />
       <Route path="/ranking" component={Ranking} />
       <Route path="/tryout/:id" component={TryoutDetails} />
       <Route component={NotFound} />
