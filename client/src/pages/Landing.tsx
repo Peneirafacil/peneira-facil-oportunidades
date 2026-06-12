@@ -174,12 +174,15 @@ export default function Landing() {
               PLANO DE ASSINATURA
             </h2>
             
-            <Card className="text-center p-8">
+            <Card className="text-center p-8 border-2 border-primary">
               <CardContent>
                 <div className="mb-6">
-                  <p className="text-sm text-muted-foreground line-through">R$ 14,90</p>
-                  <h3 className="text-3xl font-bold text-primary mb-2">R$ 19,90</h3>
-                  <p className="text-muted-foreground">por mês · ou R$ 99,00/ano</p>
+                  <Badge className="bg-primary/10 text-primary border border-primary/30 mb-3">
+                    🎁 Oferta de Boas-Vindas
+                  </Badge>
+                  <p className="text-sm text-muted-foreground line-through">R$ 19,90</p>
+                  <h3 className="text-3xl font-bold text-primary mb-2">R$ 9,90</h3>
+                  <p className="text-muted-foreground">primeiro mês · depois R$ 19,90/mês · ou R$ 99,00/ano</p>
                 </div>
                 
                 <div className="space-y-4 mb-8">
@@ -207,7 +210,7 @@ export default function Landing() {
                 
                 <Link href="/planos">
                   <Button className="cta-button text-lg px-8 py-4">
-                    VER PLANOS
+                    🎁 RESGATAR PRESENTE
                   </Button>
                 </Link>
               </CardContent>

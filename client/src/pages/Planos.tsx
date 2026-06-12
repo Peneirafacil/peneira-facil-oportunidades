@@ -269,6 +269,22 @@ export default function Planos() {
           ) : (
             <div className="flex flex-col gap-6">
 
+              {/* ── Banner de assinatura ativa ── */}
+              {isActiveSubscriber && (
+                <Card className="border-2 border-green-500 bg-green-500/10">
+                  <CardContent className="p-4 flex items-center gap-3">
+                    <CheckCircle className="w-6 h-6 text-green-500 shrink-0" />
+                    <div>
+                      <p className="font-bold text-green-400">Assinatura Ativa</p>
+                      <p className="text-xs text-muted-foreground">
+                        Válida até{" "}
+                        {new Date(profile!.subscription_expires_at!).toLocaleDateString("pt-BR")}
+                      </p>
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
+
               {/* ── Plano Mensal ── */}
               <Card className="relative border-2 border-primary">
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2">
