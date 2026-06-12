@@ -10,11 +10,12 @@ import { CheckCircle, Loader2, X } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 type CheckoutStep = "plans" | "form" | "success";
-type PlanType = "monthly_1490" | "anual";
+type PlanType = "monthly_pix" | "monthly_1990" | "anual";
 
 const PLAN_DISPLAY: Record<PlanType, { label: string; price: number; duration: string }> = {
-  monthly_1490: { label: "Plano Mensal", price: 14.90, duration: "/mês" },
-  anual: { label: "Plano Anual", price: 99.00, duration: "/ano" },
+  monthly_pix:  { label: "Plano Mensal", price: 9.90,  duration: "/mês" },
+  monthly_1990: { label: "Plano Mensal", price: 19.90, duration: "/mês" },
+  anual:        { label: "Plano Anual",  price: 99.00, duration: "/ano" },
 };
 
 export default function Planos() {
@@ -30,7 +31,7 @@ export default function Planos() {
   const [profileLoading, setProfileLoading] = useState(true);
 
   const [step, setStep] = useState<CheckoutStep>("plans");
-  const [selectedPlan, setSelectedPlan] = useState<PlanType>("monthly_1490");
+  const [selectedPlan, setSelectedPlan] = useState<PlanType>("monthly_pix");
   const [submitting, setSubmitting] = useState(false);
 
   const [form, setForm] = useState({ name: "", cpf: "", phone: "" });
@@ -283,9 +284,11 @@ export default function Planos() {
                     </div>
                     <div className="text-right">
                       {!isReturningUser && (
-                        <p className="text-sm text-muted-foreground line-through">R$ 9,90</p>
+                        <p className="text-sm text-muted-foreground line-through">R$ 19,90</p>
                       )}
-                      <p className="text-3xl font-black text-primary">R$ 14,90</p>
+                      <p className="text-3xl font-black text-primary">
+                        {isReturningUser ? "R$ 19,90" : "R$ 9,90"}
+                      </p>
                       <p className="text-xs text-muted-foreground">por mês</p>
                     </div>
                   </div>
@@ -306,7 +309,7 @@ export default function Planos() {
 
                   <Button
                     className="cta-button w-full mt-5"
-                    onClick={() => selectAndGo("monthly_1490")}
+                    onClick={() => selectAndGo(isReturningUser ? "monthly_1990" : "monthly_pix")}
                   >
                     {isActiveSubscriber ? "RENOVAR PLANO" : isReturningUser ? "ASSINAR AGORA" : "COMEÇAR AGORA"}
                   </Button>

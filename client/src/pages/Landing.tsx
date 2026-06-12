@@ -177,8 +177,8 @@ export default function Landing() {
             <Card className="text-center p-8">
               <CardContent>
                 <div className="mb-6">
-                  <p className="text-sm text-muted-foreground line-through">R$ 9,90</p>
-                  <h3 className="text-3xl font-bold text-primary mb-2">R$ 14,90</h3>
+                  <p className="text-sm text-muted-foreground line-through">R$ 14,90</p>
+                  <h3 className="text-3xl font-bold text-primary mb-2">R$ 19,90</h3>
                   <p className="text-muted-foreground">por mês · ou R$ 99,00/ano</p>
                 </div>
                 
